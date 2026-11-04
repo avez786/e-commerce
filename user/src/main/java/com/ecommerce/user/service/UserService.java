@@ -33,7 +33,7 @@ public class UserService {
 
         userRepository.save(user);
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole() == null ? "USER" : user.getRole().name());
         return new AuthResponse(token);
     }
 
@@ -45,7 +45,7 @@ public class UserService {
             throw new RuntimeException("Invalid email or password");
         }
 
-        String token = jwtUtil.generateToken(user.getEmail());
+        String token = jwtUtil.generateToken(user.getEmail(), user.getRole() == null ? "USER" : user.getRole().name());
         return new AuthResponse(token);
     }
 }

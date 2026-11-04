@@ -30,13 +30,13 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id) {
-        return ResponseEntity.ok(orderService.getOrderById(id));
+    public ResponseEntity<OrderResponse> getOrderById(@PathVariable Long id, @RequestHeader("X-User-Email") String userEmail) {
+        return ResponseEntity.ok(orderService.getOrderById(id, userEmail));
     }
     @PatchMapping("/{id}/status")
-    public ResponseEntity<OrderResponse> updateStatus(
-            @PathVariable Long id,
-            @RequestParam String status) {
+    public ResponseEntity<OrderResponse> updateStatus(@PathVariable Long id, @RequestParam String status,
+            @RequestHeader(value = "X-User-Role", required = false) String role) {
+        if (!"ADMIN".equals(role)) return ResponseEntity.status(403).build();
         return ResponseEntity.ok(orderService.updateOrderStatus(id, status));
     }
 }

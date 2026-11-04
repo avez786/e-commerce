@@ -14,8 +14,8 @@ public class CorsConfig {
     @Bean
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOrigins(List.of("http://127.0.0.1:5500", "http://localhost:5500"));
-        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        corsConfig.setAllowedOrigins(List.of(System.getenv().getOrDefault("FRONTEND_ORIGIN", "http://localhost:5173"), System.getenv().getOrDefault("FRONTEND_ORIGIN_ALT", "http://127.0.0.1:5173"), "http://localhost:5500", "http://127.0.0.1:5500"));
+        corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         corsConfig.setAllowedHeaders(List.of("*"));
         corsConfig.setAllowCredentials(true);
 

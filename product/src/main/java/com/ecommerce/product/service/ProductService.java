@@ -86,8 +86,11 @@ public class ProductService {
             throw new RuntimeException("Product not found with id: " + productId);
         }
 
-        if (request.getRating() < 1 || request.getRating() > 5) {
-            throw new RuntimeException("Rating must be between 1 and 5");
+        if (request == null || request.getRating() == null || request.getRating() < 1 || request.getRating() > 5) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
+        }
+        if (request.getComment() != null && request.getComment().length() > 1000) {
+            throw new IllegalArgumentException("Review comment must be 1000 characters or fewer");
         }
 
         Review review = Review.builder()

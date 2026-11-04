@@ -16,7 +16,8 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponse> createProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<ProductResponse> createProduct(@RequestHeader(value = "X-User-Role", required = false) String role, @RequestBody ProductRequest request) {
+        if (!"ADMIN".equals(role)) return ResponseEntity.status(403).build();
         return ResponseEntity.ok(productService.createProduct(request));
     }
 
@@ -31,12 +32,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductRequest request) {
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestHeader(value = "X-User-Role", required = false) String role, @RequestBody ProductRequest request) {
+        if (!"ADMIN".equals(role)) return ResponseEntity.status(403).build();
         return ResponseEntity.ok(productService.updateProduct(id, request));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id, @RequestHeader(value = "X-User-Role", required = false) String role) {
+        if (!"ADMIN".equals(role)) return ResponseEntity.status(403).build();
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }

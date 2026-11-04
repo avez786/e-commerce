@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Checkout</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/checkout.css" />
+    </head>
+    <body>
+        <nav class="main-nav">
+            <div class="nav-brand">E-COMMERCE</div>
+            <div class="nav-links">
+                <a href="products.html">Products</a>
+                <a href="orders.html">My Orders</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </nav>
+
+        <div class="checkout-page">
+            <h2>Checkout</h2>
+            <div id="errorMsg" class="error"></div>
+
+            <div class="checkout-layout">
+                <div class="order-summary" id="orderSummary"></div>
+
+                <div class="payment-box">
+                    <h3>Demo checkout</h3>
+                    <p class="payment-note">Demo only — no real payment is processed. Do not enter real card details.</p>
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="card" checked />
+                        Card (Simulated)
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="upi" />
+                        UPI (Simulated)
+                    </label>
+                    <label class="payment-option">
+                        <input type="radio" name="paymentMethod" value="cod" />
+                        Cash on Delivery
+                    </label>
+
+                    <div id="cardFields">
+                        <input type="text" id="cardName" placeholder="Name on card" />
+                        <input type="text" id="cardNumber" placeholder="Card number (digits only)" maxlength="16" />
+                        <div class="card-row">
+                            <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" />
+                            <input type="text" id="cardCvv" placeholder="CVV" maxlength="3" />
+                        </div>
+                    </div>
+
+                    <button id="payButton" onclick="processPayment()">Pay Now</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="js/config.js"></script>
+        <script src="js/checkout.js"></script>
+    </body>
+</html>

@@ -35,9 +35,13 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<Object> {
             }
 
             String email = jwtUtil.extractEmail(token);
+            String role = jwtUtil.extractRole(token);
+            if (role == null || role.isBlank()) role = "USER";
 
             ServerHttpRequest mutatedRequest = exchange.getRequest().mutate()
+                    .headers(headers -> { headers.remove("X-User-Email"); headers.remove("X-User-Role"); })
                     .header("X-User-Email", email)
+                    .header("X-User-Role", role)
                     .build();
 
             return chain.filter(exchange.mutate().request(mutatedRequest).build());

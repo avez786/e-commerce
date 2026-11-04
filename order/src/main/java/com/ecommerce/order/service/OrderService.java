@@ -20,7 +20,9 @@ public class OrderService {
     private final ProductClient productClient;
 
     public OrderResponse placeOrder(String userEmail, OrderRequest request) {
-
+        if (userEmail == null || userEmail.isBlank()) throw new IllegalArgumentException("A signed-in customer is required to place an order.");
+        if (request == null || request.getItems() == null || request.getItems().isEmpty()) throw new IllegalArgumentException("An order must contain at least one item.");
+        if (request.getItems().stream().anyMatch(item -> item == null || item.getProductId() == null || item.getQuantity() == null || item.getQuantity() < 1)) throw new IllegalArgumentException("Each order item needs a product ID and quantity greater than zero.");
         List<OrderItem> orderItems = request.getItems().stream()
                 .map(itemReq -> {
                     ProductResponse product = productClient.getProductById(itemReq.getProductId());
@@ -63,9 +65,9 @@ public class OrderService {
                 .toList();
     }
 
-    public OrderResponse getOrderById(Long id) {
-        Order order = orderRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+    public OrderResponse getOrderById(Long id, String userEmail) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+        if (userEmail == null || !userEmail.equalsIgnoreCase(order.getUserEmail())) throw new org.springframework.web.server.ResponseStatusException(org.springframework.http.HttpStatus.FORBIDDEN, "You cannot view another user's order.");
         return toResponse(order);
     }
 

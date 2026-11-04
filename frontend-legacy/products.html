@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Products</title>
+        <link rel="stylesheet" href="css/style.css" />
+        <link rel="stylesheet" href="css/products.css" />
+    </head>
+    <body>
+        <nav class="main-nav">
+            <div class="nav-brand">E-COMMERCE</div>
+            <div class="nav-links">
+                <a href="products.html">Products</a>
+                <a href="orders.html">My Orders</a>
+                <a href="#" onclick="logout()">Logout</a>
+            </div>
+        </nav>
+
+        <div class="products-page">
+            <h2>Available Products</h2>
+            <div id="errorMsg" class="error"></div>
+            <div id="productGrid" class="product-grid"></div>
+            <div class="cart-summary" id="cartSummary" style="display: none">
+                <h3>Your Cart</h3>
+                <div id="cartItems"></div>
+                <div class="cart-total" id="cartTotal"></div>
+                <button onclick="goToCheckout()">Proceed to Checkout</button>
+            </div>
+        </div>
+
+        <script src="js/config.js"></script>
+        <script src="js/products.js"></script>
+    </body>
+</html>
